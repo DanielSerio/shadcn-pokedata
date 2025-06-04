@@ -1,4 +1,5 @@
 export interface DirectoryResponse {
+  [key: string]: string;
   ability: string;
   berry: string;
   'berry-firmness': string;

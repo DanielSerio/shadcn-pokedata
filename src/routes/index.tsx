@@ -1,4 +1,3 @@
-import { useDirectory } from "@/hooks/useDirectory";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
@@ -6,7 +5,5 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const directory = useDirectory();
-
-  return <div className="p-2">{JSON.stringify(directory.data)}</div>;
+  return <div className="p-2">home</div>;
 }

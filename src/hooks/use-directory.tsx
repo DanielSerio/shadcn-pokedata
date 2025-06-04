@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useHttp } from "@/api/http.provider";
 import type { DirectoryResponse } from "@/api/root-endpoints.types";
+import { mapObjectValues } from "@/lib/object.utils";
+import { endpointToRoute } from "@/lib/endpoint";
 
 /**
  * Fetches directory data.
@@ -14,7 +16,9 @@ export function useDirectory() {
     async queryFn() {
       const response = await http.get("/");
 
-      return response.data as DirectoryResponse;
+      return mapObjectValues(response.data as DirectoryResponse, (value) =>
+        endpointToRoute(value)
+      );
     },
     staleTime: Infinity,
   });

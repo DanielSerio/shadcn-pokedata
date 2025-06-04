@@ -1,8 +1,10 @@
 import axios from "axios";
 import { createContext, useContext, type PropsWithChildren } from "react";
 
+export const BASE_URL = `https://pokeapi.co/api/v2/`;
+
 const http = axios.create({
-  baseURL: "https://pokeapi.co/api/v2/",
+  baseURL: BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
