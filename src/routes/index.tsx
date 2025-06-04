@@ -8,10 +8,5 @@ export const Route = createFileRoute("/")({
 function Index() {
   const directory = useDirectory();
 
-  return (
-    <div className="p-2">
-      <h3>Welcome Home!</h3>
-      {JSON.stringify(directory.data?.ability)}
-    </div>
-  );
+  return <div className="p-2">{JSON.stringify(directory.data)}</div>;
 }
