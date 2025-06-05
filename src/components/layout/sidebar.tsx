@@ -34,7 +34,7 @@ export function AppSidebar() {
 
     if (target.dataset.url && target.tagName === "BUTTON") {
       navigate({
-        to: target.dataset.url,
+        to: `${target.dataset.url}`,
       });
     }
   };
