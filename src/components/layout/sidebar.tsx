@@ -13,7 +13,11 @@ import { cn } from "@/lib/utils";
 import { SearchInput } from "../controls/SearchInput";
 import { useDebounced } from "@/hooks/use-debounced";
 
-export function AppSidebar() {
+export function AppSidebar({
+  selectEndpoint,
+}: {
+  selectEndpoint: (ep: string | null) => void;
+}) {
   const directoryQuery = useDirectory();
   const [filterInputValue, setFilterInputValue] = useState("");
   const filterValue = useDebounced(filterInputValue);
@@ -31,7 +35,9 @@ export function AppSidebar() {
     const target = event.target as HTMLElement;
 
     if (target.dataset.url && target.tagName === "BUTTON") {
-      console.info(target.dataset.url);
+      selectEndpoint(target.dataset.url);
+    } else {
+      selectEndpoint(null);
     }
   };
 
@@ -45,7 +51,7 @@ export function AppSidebar() {
   ];
 
   return (
-    <Sidebar>
+    <Sidebar collapsible="none" style={{ height: "100svh" }}>
       <SidebarHeader>
         <SearchInput
           placeholder="Filter"
@@ -53,7 +59,7 @@ export function AppSidebar() {
           onChange={handleFilterChange}
         />
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent style={{ height: "calc(100svh - 52px)" }}>
         <SidebarGroup>
           <div onClick={handleClick}>
             {!directoryQuery.isLoading &&
