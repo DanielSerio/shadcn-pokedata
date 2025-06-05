@@ -12,15 +12,13 @@ import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { SearchInput } from "../controls/SearchInput";
 import { useDebounced } from "@/hooks/use-debounced";
+import { useNavigate } from "@tanstack/react-router";
 
-export function AppSidebar({
-  selectEndpoint,
-}: {
-  selectEndpoint: (ep: string | null) => void;
-}) {
+export function AppSidebar() {
   const directoryQuery = useDirectory();
   const [filterInputValue, setFilterInputValue] = useState("");
   const filterValue = useDebounced(filterInputValue);
+  const navigate = useNavigate();
 
   const getFilteredSet = (text: string, links: string[]) => {
     return links.filter((link) =>
@@ -35,9 +33,9 @@ export function AppSidebar({
     const target = event.target as HTMLElement;
 
     if (target.dataset.url && target.tagName === "BUTTON") {
-      selectEndpoint(target.dataset.url);
-    } else {
-      selectEndpoint(null);
+      navigate({
+        to: target.dataset.url,
+      });
     }
   };
 
@@ -51,7 +49,10 @@ export function AppSidebar({
   ];
 
   return (
-    <Sidebar collapsible="none" style={{ height: "100svh" }}>
+    <Sidebar
+      collapsible="none"
+      style={{ height: "100svh", position: "fixed", width: 260 }}
+    >
       <SidebarHeader>
         <SearchInput
           placeholder="Filter"

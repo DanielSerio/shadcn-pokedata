@@ -1,20 +1,16 @@
-import { ListSidebar } from "@/components/layout/ListSidebar";
-import { AppSidebar } from "@/components/layout/sidebar";
+import { AppSidebar } from "@/components/layout/Sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { createRootRoute, Outlet } from "@tanstack/react-router";
-import { useState } from "react";
+import type { QueryClient } from "@tanstack/react-query";
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<{
+  queryClient: QueryClient;
+}>()({
   component: () => {
-    const [selectedListEndpoint, setSelectedListEndpoint] = useState<
-      null | string
-    >(null);
-
     return (
       <SidebarProvider>
-        <AppSidebar selectEndpoint={setSelectedListEndpoint} />
-        <ListSidebar selectedListEndpoint={selectedListEndpoint} />
-        <main>
+        <AppSidebar />
+        <main className="pl-[260px] max-w-[100svw]">
           <Outlet />
         </main>
       </SidebarProvider>

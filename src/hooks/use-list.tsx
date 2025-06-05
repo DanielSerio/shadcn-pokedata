@@ -1,4 +1,5 @@
 import { useHttp } from "@/api/http.provider";
+import { getListFn } from "@/services/list.service";
 import { useQuery } from "@tanstack/react-query";
 
 export interface ListItem {
@@ -10,13 +11,13 @@ export function useList(selectedListEndpoint?: string) {
   const http = useHttp();
   const url = `${selectedListEndpoint}?limit=10000`.replace(/^\//, "");
 
+  const getList = getListFn(http);
+
   return useQuery({
     enabled: !!http && !!selectedListEndpoint,
     queryKey: [selectedListEndpoint, "list"],
     async queryFn() {
-      const response = await http.get(url);
-
-      return response.data.results as ListItem[];
+      return await getList(url);
     },
   });
 }

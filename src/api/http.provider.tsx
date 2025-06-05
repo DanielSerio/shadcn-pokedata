@@ -3,20 +3,20 @@ import { createContext, useContext, type PropsWithChildren } from "react";
 
 export const BASE_URL = `https://pokeapi.co/api/v2/`;
 
-const http = axios.create({
+export const HTTP = axios.create({
   baseURL: BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-const HttpContext = createContext(http);
+const HttpContext = createContext(HTTP);
 
 /**
  * Provides an HTTP context.
  */
 export const HttpProvider = ({ children }: PropsWithChildren) => {
-  return <HttpContext.Provider value={http}>{children}</HttpContext.Provider>;
+  return <HttpContext.Provider value={HTTP}>{children}</HttpContext.Provider>;
 };
 
 /**
