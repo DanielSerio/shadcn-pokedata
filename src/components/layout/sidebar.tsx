@@ -12,13 +12,17 @@ import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { SearchInput } from "../controls/SearchInput";
 import { useDebounced } from "@/hooks/use-debounced";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useRouterState } from "@tanstack/react-router";
 
 export function AppSidebar() {
   const directoryQuery = useDirectory();
   const [filterInputValue, setFilterInputValue] = useState("");
   const filterValue = useDebounced(filterInputValue);
   const navigate = useNavigate();
+  const routerState = useRouterState();
+
+  const urlPath =
+    routerState.resolvedLocation?.pathname ?? routerState.location.pathname;
 
   const getFilteredSet = (text: string, links: string[]) => {
     return links.filter((link) =>
@@ -48,6 +52,8 @@ export function AppSidebar() {
     "hover:bg-secondary",
   ];
 
+  const activePathKeys = urlPath.replace(/^\//, "").split(/\//g);
+
   return (
     <Sidebar
       collapsible="none"
@@ -70,7 +76,16 @@ export function AppSidebar() {
                   return (
                     <Button
                       key={key}
-                      className={cn(buttonClasses)}
+                      className={cn(
+                        buttonClasses,
+                        activePathKeys.includes(
+                          directoryQuery.data[
+                            key as keyof DirectoryResponse
+                          ].replace(/\//g, "")
+                        )
+                          ? "bg-sky-500 text-white"
+                          : null
+                      )}
                       data-url={
                         directoryQuery.data[key as keyof DirectoryResponse]
                       }

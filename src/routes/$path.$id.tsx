@@ -19,13 +19,17 @@ export const Route = createFileRoute("/$path/$id")({
 function RouteComponent() {
   const { path, id } = Route.useParams();
 
-  const { data } = useSuspenseQuery(
+  const { data, isLoading } = useSuspenseQuery(
     queryOptions({
       queryKey: [path, id],
       queryFn: () =>
         getEntityFn<object & Record<string, any>>(HTTP)(`${path}/${id}`),
     })
   );
+
+  if (isLoading) {
+    return <>Loading...</>;
+  }
 
   return <JSONViewer json={data} />;
 }
